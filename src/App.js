@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Panell } from "./styled";
 
 const budgets = [
   {
@@ -22,13 +23,17 @@ function App() {
   );
 
   const [total, setTotal] = useState(0);
+  const [isClick, setIsClick] = useState(false);
+  const [pagesBudget, setPagesBudget] = useState(0);
+  const [languageBudget, setLanguagesBudget] = useState(0);
 
   const handleOnChange = (position) => {
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
-
     setCheckedState(updatedCheckedState);
+
+    position === 0 && setIsClick(!isClick);
 
     const totalPrice = updatedCheckedState.reduce(
       (sum, currentState, index) => {
@@ -62,14 +67,35 @@ function App() {
                 <label
                   htmlFor={`custom-checkbox-${index}`}
                 >{`${name} (${price}€)`}</label>
+                {isClick && index === 0 && (
+                  <Panell>
+                    <label>Número de páginas</label>
+
+                    <input
+                      type="number"
+                      placeholder="Escribe un número"
+                      name=""
+                      onChange={(e) => setPagesBudget(e.target.value * 30)}
+                    />
+                    <label>Número de idiomas</label>
+                    <input
+                      type="number"
+                      placeholder="Escribe un número"
+                      name=""
+                      onChange={(e) => setLanguagesBudget(e.target.value * 30)}
+                    />
+                  </Panell>
+                )}
               </div>
             </div>
           );
         })}
       </div>
-      <div className="price-section">Total:{`${total}€`}</div>
+
+      <div className="price-section">
+        Total:{`${total + pagesBudget + languageBudget}€`}
+      </div>
     </div>
   );
 }
-
 export default App;
