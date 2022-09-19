@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Panell } from "./styled";
+import { Panell, Button} from "./styled";
 
 const budgets = [
   {
@@ -48,6 +48,11 @@ function App() {
     setTotal(totalPrice);
   };
 
+  // const handleAdd = (e) => {
+  //   setPagesBudget(pagesBudget + 1)
+
+  // };
+
   return (
     <div className="App">
       <h2>¿Qué vols fer?</h2>
@@ -70,20 +75,23 @@ function App() {
                 {isClick && index === 0 && (
                   <Panell>
                     <label>Número de páginas</label>
-
-                    <input
-                      type="number"
+                    <Button onClick={()=>setPagesBudget(pagesBudget + 1 )}>+</Button>
+                    <input type="text"
                       placeholder="Escribe un número"
-                      name=""
-                      onChange={(e) => setPagesBudget(e.target.value * 30)}
-                    />
+                      value={pagesBudget}
+                      onChange={(e) => setPagesBudget(e.target.value)}/>
+                      
+                    
+                    <Button onClick={()=>setPagesBudget(pagesBudget - 1 )}>-</Button>
                     <label>Número de idiomas</label>
+                    <Button onClick={()=>setLanguagesBudget(languageBudget + 1)}>+</Button>
                     <input
-                      type="number"
+                      type="text"
                       placeholder="Escribe un número"
-                      name=""
-                      onChange={(e) => setLanguagesBudget(e.target.value * 30)}
+                      value={languageBudget}
+                      onChange={(e) => setLanguagesBudget(e.target.value)}
                     />
+                    <Button onClick={()=>setLanguagesBudget(languageBudget - 1)}>-</Button>
                   </Panell>
                 )}
               </div>
@@ -93,7 +101,7 @@ function App() {
       </div>
 
       <div className="price-section">
-        Total:{`${total + pagesBudget + languageBudget}€`}
+        Total:{`${total + pagesBudget *30 + languageBudget *30}€`}
       </div>
     </div>
   );

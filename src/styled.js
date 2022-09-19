@@ -1,12 +1,28 @@
 import styled from "styled-components";
 
 export const Panell = styled.div`
-
-border: solid 2px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+border: solid 3px;
 border-radius: 10px;
 font-size: 15px;
-width: 25%;
-height: auto;
+max-width: 350px;
+min-width:200px;
 margin: 10px;
 padding: 30px 5px;
 `;
+
+export const Button = styled.button`
+    flex-grow:4;
+    background-color: salmon;
+    color: white;
+    font-size: 20px;
+    border : transparent;
+    border-radius: 10px;
+    widht:70%;
+    margin: 2px;
+    padding: 2px;
+`;
+
