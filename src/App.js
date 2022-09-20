@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Panell, Button} from "./styled";
+import { useState, useEffect } from "react";
+import { Panell, Button } from "./styled";
 
 const budgets = [
   {
@@ -21,11 +21,14 @@ function App() {
   const [checkedState, setCheckedState] = useState(
     new Array(budgets.length).fill(false)
   );
+  const initialValue = () => Number(localStorage.getItem("Total Services"));
+  const initialValuePages = () => Number(localStorage.getItem("Pages"));
+  const initialValueLanguage = () => Number(localStorage.getItem("Language"));
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(initialValue);
   const [isClick, setIsClick] = useState(false);
-  const [pagesBudget, setPagesBudget] = useState(0);
-  const [languageBudget, setLanguagesBudget] = useState(0);
+  const [pagesBudget, setPagesBudget] = useState(initialValuePages);
+  const [languagesBudget, setLanguagesBudget] = useState(initialValueLanguage);
 
   const handleOnChange = (position) => {
     const updatedCheckedState = checkedState.map((item, index) =>
@@ -48,10 +51,15 @@ function App() {
     setTotal(totalPrice);
   };
 
-  // const handleAdd = (e) => {
-  //   setPagesBudget(pagesBudget + 1)
-
-  // };
+  useEffect(() => {
+    localStorage.setItem("Total Services", JSON.stringify(total));
+  }, [total]);
+  useEffect(() => {
+    localStorage.setItem("Pages", JSON.stringify(pagesBudget));
+  }, [pagesBudget]);
+  useEffect(() => {
+    localStorage.setItem("Language", JSON.stringify(languagesBudget));
+  }, [languagesBudget]);
 
   return (
     <div className="App">
@@ -75,23 +83,36 @@ function App() {
                 {isClick && index === 0 && (
                   <Panell>
                     <label>Número de páginas</label>
-                    <Button onClick={()=>setPagesBudget(pagesBudget + 1 )}>+</Button>
-                    <input type="text"
-                      placeholder="Escribe un número"
-                      value={pagesBudget}
-                      onChange={(e) => setPagesBudget(e.target.value)}/>
-                      
-                    
-                    <Button onClick={()=>setPagesBudget(pagesBudget - 1 )}>-</Button>
-                    <label>Número de idiomas</label>
-                    <Button onClick={()=>setLanguagesBudget(languageBudget + 1)}>+</Button>
+                    <Button onClick={() => setPagesBudget(pagesBudget + 1)}>
+                      +
+                    </Button>
                     <input
                       type="text"
                       placeholder="Escribe un número"
-                      value={languageBudget}
+                      value={pagesBudget}
+                      onChange={(e) => setPagesBudget(e.target.value)}
+                    />
+
+                    <Button onClick={() => setPagesBudget(pagesBudget - 1)}>
+                      -
+                    </Button>
+                    <label>Número de idiomas</label>
+                    <Button
+                      onClick={() => setLanguagesBudget(languagesBudget + 1)}
+                    >
+                      +
+                    </Button>
+                    <input
+                      type="text"
+                      placeholder="Escribe un número"
+                      value={languagesBudget}
                       onChange={(e) => setLanguagesBudget(e.target.value)}
                     />
-                    <Button onClick={()=>setLanguagesBudget(languageBudget - 1)}>-</Button>
+                    <Button
+                      onClick={() => setLanguagesBudget(languagesBudget - 1)}
+                    >
+                      -
+                    </Button>
                   </Panell>
                 )}
               </div>
@@ -101,7 +122,7 @@ function App() {
       </div>
 
       <div className="price-section">
-        Total:{`${total + pagesBudget *30 + languageBudget *30}€`}
+        Total:{`${total + pagesBudget * 30 + languagesBudget * 30}€`}
       </div>
     </div>
   );
